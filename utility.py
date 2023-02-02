@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from keras.preprocessing import image
-import tensorflow.keras # change keras to tensforflow.keras 
+import tensorflow.keras as keras # change keras to tensforflow.keras as keras
 from keras.models import Model
 from keras.layers import Input, Dense, Dropout
 import numpy as np
