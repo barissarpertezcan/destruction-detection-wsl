@@ -52,7 +52,7 @@ def model_attention():
     adam = keras.optimizers.Adam(lr=0.001, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=True)
     
     for i, layer in enumerate(model.layers):
-        layer.name = 'layer_' + str(i)
+        layer._name = 'layer_' + str(i) # change .name to ._name as it's protected variable
         
         
     model.compile(optimizer=adam,loss = custom_loss(att_weights),metrics=['accuracy'])
