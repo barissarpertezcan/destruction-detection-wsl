@@ -70,6 +70,9 @@ def train_model(model,traindest,train_nondest,valdest,val_nondest,batch=32,param
             label1 = [0]*halfbatch
             label2 = [1]*halfbatch
             labels = np.concatenate((label1,label2),axis=0)
+
+            # for testing purposes
+            labels = np.random.randint(0, 17, (labels.shape[0], 16), dtype='int64')
         
             loss,acc = model.train_on_batch(data,labels)
             iterloss.append(loss)
@@ -108,8 +111,8 @@ train_non_destruct_features = np.array(train_non_destruct_features)
 train_non_destruct_features = np.reshape(train_non_destruct_features,(-1,9,1024))
 
 # for testing purposes
-train_destruct_features = np.random.randint(0, 16, train_destruct_features.shape, dtype='int64')
-train_non_destruct_features = np.random.randint(0, 16, train_non_destruct_features.shape, dtype='int64')
+# train_destruct_features = np.random.randint(0, 16, train_destruct_features.shape, dtype='int64')
+# train_non_destruct_features = np.random.randint(0, 16, train_non_destruct_features.shape, dtype='int64')
 
 
 print("Splitting data into training and testing....")

@@ -5,6 +5,9 @@ Created on Wed Sep  4 16:53:08 2019
 
 @author: hec
 """
+# from tensorflow.python.framework.ops import disable_eager_execution
+# disable_eager_execution()
+
 import keras
 import tensorflow as tf
 from tensorflow.keras import backend as K
@@ -31,7 +34,7 @@ def custom_loss(layer):
     # we must give y_true labels in one hot encoded form
     def loss(y_true, y_pred):
         cce = tf.keras.losses.CategoricalCrossentropy()
-        return cce(y_true, y_pred).numpy() + (0.3 * K.sum(layer2, axis=-1))
+        return cce(y_true, y_pred) + (0.3 * K.sum(layer2, axis=-1))  # cce(y_true, y_pred).numpy()
         # return K.CategoricalCrossentropy(y_true, y_pred) + (0.3 * K.sum(layer2, axis=-1))
 
     # Return a function
