@@ -107,6 +107,11 @@ train_destruct_features = np.reshape(train_destruct_features,(-1,9,1024))
 train_non_destruct_features = np.array(train_non_destruct_features)
 train_non_destruct_features = np.reshape(train_non_destruct_features,(-1,9,1024))
 
+# for testing purposes
+train_destruct_features = np.random.randint(0, 16, train_destruct_features.shape, dtype='int64')
+train_non_destruct_features = np.random.randint(0, 16, train_non_destruct_features.shape, dtype='int64')
+
+
 print("Splitting data into training and testing....")
 #splitting into training and testing data
 train_destruct_features = shuffle(train_destruct_features,random_state=2)
@@ -118,6 +123,8 @@ val_non_destruct = train_non_destruct_features[2000:]
 
 train_destruct_features = train_destruct_features[:1700]
 train_non_destruct_features = train_non_destruct_features[:2000]
+
+print("train_non_destruct_features.shape: ", train_non_destruct_features.shape)
     
 #load Attentionmodel      
 print("loading attention model....")      
@@ -125,6 +132,37 @@ model = Network.model_attention()
 
 #training model
 print("Starting Training..!!")
+
+"""
+# For testing purposes
+train_destruct_features = np.zeros(500 * 16)
+train_non_destruct_features = np.zeros(300 * 16)
+val_destruct = np.zeros(120 * 16)
+val_non_destruct = np.zeros(100 * 16)
+
+for i in range(16):
+    train_destruct_features[i: i+500] = i
+
+for i in range(16):
+    train_non_destruct_features[i: i + 300] = i
+
+for i in range(16):
+    val_destruct[i: i + 120] = i
+
+for i in range(16):
+    val_non_destruct[i: i + 100] = i
+
+np.random.shuffle(train_destruct_features)
+np.random.shuffle(train_non_destruct_features)
+np.random.shuffle(val_destruct)
+np.random.shuffle(val_non_destruct)
+
+train_destruct_features = train_destruct_features.reshape((-1, 9, 1024))
+train_non_destruct_features = train_non_destruct_features.reshape((-1, 9, 1024))
+val_destruct = val_destruct.reshape((-1, 9, 1024))
+val_non_destruct = val_non_destruct.reshape((-1, 9, 1024))
+"""
+
 model,val_loss,val_acc = train_model(model,train_destruct_features,train_non_destruct_features,val_destruct,val_non_destruct,batch=32,param_epoch=options.epochs)#,val_destruct,val_non_destruct,batch=32,param_epoch=options.epochs)
 print("Training Done!!!")
 

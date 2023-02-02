@@ -40,6 +40,8 @@ def patch_model_prediction(model,test_nondestruct,testdestruct):
    
     predicted = np.where(pred>0.5,1,0)
     label1 = np.array([0]*len(test_nondestruct))
+    # label1'i oluştururken boyutu batch_size (len(test_nondestruct) * 16 şeklinde yapmak lazım diye düşünüyorum)
+
     nondest_acc = round(accuracy_score(label1, predicted),2)
     #print('Non-Destruction class Accuracy:', )
     

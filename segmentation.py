@@ -23,7 +23,7 @@ parser.add_option("--apply_CRF", dest="apply_CRF", help="Mention if you want to 
 parser.add_option("--patch_stride", dest="patch_stride",type="int", help="mention stride of window to extract patches and features.", default=64)
 (options, args) = parser.parse_args()
 
-
+# it takes global average pooling layer of densenet, densenet is chosen due to its success on challenging datasets
 model_densenet = utility.load_denseNet()
 
 modelpath = os.path.join("models",options.model_name)
@@ -31,9 +31,12 @@ modelpath = os.path.join("models",options.model_name)
 if(os.path.exists(modelpath)):
     
     print("loading Trained model..")
+    # creates the attention network
     model = Network.model_attention()
+    # load model weights
     model.load_weights(modelpath)
     path_to_test = options.test_path
+    # it creates segmentation masks
     masks,nameslist = results.predictmask(path_to_test=path_to_test,denseModel=model_densenet,model=model,patch_size=224,window_stride=64)
     modelnamedir = options.model_name.split('.')[0]
     maskdir = os.path.join("predicted_masks",modelnamedir)
@@ -47,7 +50,7 @@ if(os.path.exists(modelpath)):
         cv2.imwrite(os.path.join(maskdir,maskname+".png"),mask)
         
     if (options.apply_CRF == "yes"):
-        
+
         print("Applying Crf..." )
         crfdir = crf.CRF(masks,nameslist)
         print("masks generated.Check below directories")
